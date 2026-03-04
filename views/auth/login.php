@@ -19,7 +19,12 @@ if (isset($_POST['login'])) {
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_role'] = $user['role'];
 
-            echo "Login successful!";
+            if ($user['role'] == 'admin') {
+                header("Location: ../admin/dashboard.php");
+            } else {
+                header("Location: ../student/dashboard.php");
+            }
+
             echo "<br>Welcome " . $_SESSION['user_name'];
             echo "<br>Your role is: " . $_SESSION['user_role'];
         } else {
