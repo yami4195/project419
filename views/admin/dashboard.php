@@ -39,19 +39,24 @@ if (isset($_POST['add_question'])) {
 }
 // Insert Subject
 if (isset($_POST['add_subject'])) {
+    require_once "../../controllers/AdminController.php";
+    $adminController = new AdminController($conn);
     $name = $_POST['subject_name'];
 
-    $sql = "INSERT INTO subjects (name) VALUES ('$name')";
-    if ($conn->query($sql) === TRUE) {
+    if ($adminController->addSubject($name)) {
         echo "Subject added successfully! <br>";
     } else {
-        echo "Error: " . $conn->error;
+        echo "Error adding subject. <br>";
     }
 }
 ?>
 
 <h2>Admin Dashboard</h2>
 <p>Welcome <?php echo $_SESSION['user_name']; ?></p>
+<nav>
+    <a href="all_results.php">View All Student Results</a> |
+    <a href="../auth/logout.php">Logout</a>
+</nav>
 
 <h3>Add Subject</h3>
 
@@ -61,16 +66,42 @@ if (isset($_POST['add_subject'])) {
 </form>
 
 <br>
+<?php
+if (isset($_POST['update_timer'])) {
+    $sid = $_POST['subject_id'];
+    $limit = $_POST['time_limit'];
+    $conn->query("UPDATE subjects SET time_limit = $limit WHERE id = $sid");
+    echo "Timer updated!<br>";
+}
+?>
 <h3>All Subjects</h3>
 
-<?php
-$result = $conn->query("SELECT * FROM subjects");
-
-while ($row = $result->fetch_assoc()) {
-    echo $row['id'] . " - " . $row['name'] . "<br>";
-}
-
-?>
+<table border="1" cellpadding="5" style="border-collapse: collapse;">
+    <tr>
+        <th>ID</th>
+        <th>Subject Name</th>
+        <th>Time Limit (Min)</th>
+        <th>Action</th>
+    </tr>
+    <?php
+    $result = $conn->query("SELECT * FROM subjects");
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>
+            <td>{$row['id']}</td>
+            <td>{$row['name']}</td>
+            <td>
+                <form method='POST' style='display:inline;'>
+                    <input type='hidden' name='subject_id' value='{$row['id']}'>
+                    <input type='number' name='time_limit' value='{$row['time_limit']}' style='width:50px;'>
+            </td>
+            <td>
+                    <button type='submit' name='update_timer'>Update</button>
+                </form>
+            </td>
+          </tr>";
+    }
+    ?>
+</table>
 <h3>Add Question</h3>
 
 <form method="POST">

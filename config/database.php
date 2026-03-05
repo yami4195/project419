@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/autoload.php";
 $host = "localhost";
 $user = "root";
 $password = "";
