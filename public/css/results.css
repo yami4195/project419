@@ -1,0 +1,180 @@
+/* Results Dashboard Premium Styling */
+
+.hero-analytics {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.analytics-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, #1e293b, #334155) !important;
+    color: white !important;
+}
+
+.welcome-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.welcome-card p {
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.stats-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Glassmorphism Touches */
+.card.glass {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.stat-card.glass {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Chart Hero */
+.chart-hero {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container-hero {
+    flex: 1;
+    min-height: 350px;
+}
+
+/* Table Section */
+.results-table-container {
+    margin-top: 32px;
+}
+
+.table-header {
+    align-items: center !important;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-btn:hover {
+    background: var(--bg-main);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Table Enhancements */
+.modern-table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.modern-table th {
+    background: transparent !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem !important;
+}
+
+.score-text {
+    font-weight: 600;
+    color: var(--text-main);
+    background: var(--bg-main);
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+/* Progress Bar in Table */
+.progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pct-val {
+    min-width: 45px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.progress-bar-mini {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 100px;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+/* Status Chips */
+.status-badge-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.status-badge-chip.pass {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-badge-chip.fail {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.status-badge-chip i {
+    font-size: 0.9rem;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 1100px) {
+    .hero-analytics {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-container-hero {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-mini-grid {
+        grid-template-columns: 1fr;
+    }
+}
