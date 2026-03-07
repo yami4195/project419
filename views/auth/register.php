@@ -1,6 +1,7 @@
 <?php
 require_once "../../config/database.php";
 require_once "../../controllers/AuthController.php";
+require_once "../../models/Department.php";
 session_start();
 
 $message = "";
@@ -13,6 +14,10 @@ if (isset($_POST['register'])) {
     $message = $result['message'];
     $is_success = $result['success'];
 }
+
+// Fetch departments for the dropdown
+$deptModel = new Department($conn);
+$departments = $deptModel->getAllDepartments();
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +28,38 @@ if (isset($_POST['register'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Smart Learning System</title>
     <link rel="stylesheet" href="../../public/css/style.css">
+    <style>
+        .department-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .department-container.visible {
+            max-height: 100px;
+            opacity: 1;
+            transform: translateY(0);
+            margin-bottom: 20px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+            color: #1e293b;
+            transition: border-color 0.2s;
+        }
+
+        .form-select:focus {
+            border-color: #4f46e5;
+        }
+    </style>
 </head>
 
 <body>
@@ -80,11 +117,23 @@ if (isset($_POST['register'])) {
 
                 <div class="form-group">
                     <label for="role">User Role</label>
-                    <select name="role" id="role"
-                        style="width: 100%; padding: 12px 16px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 8px; outline: none;">
+                    <select name="role" id="role" class="form-select">
                         <option value="student">Student</option>
                         <option value="admin">Admin</option>
                     </select>
+                </div>
+
+                <div id="departmentField" class="department-container visible">
+                    <div class="form-group">
+                        <label for="department_id">Department</label>
+                        <select name="department_id" id="department_id" class="form-select">
+                            <option value="">Select Department</option>
+                            <?php foreach ($departments as $dept): ?>
+                                <option value="<?php echo $dept['id']; ?>">
+                                    <?php echo htmlspecialchars($dept['department_name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                 </div>
 
                 <button type="submit" name="register" class="btn-login">Create Account</button>
@@ -97,6 +146,29 @@ if (isset($_POST['register'])) {
     </div>
 
     <script src="../../public/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const roleSelect = document.getElementById('role');
+            const departmentField = document.getElementById('departmentField');
+            const departmentSelect = document.getElementById('department_id');
+
+            function toggleDepartment() {
+                if (roleSelect.value === 'student') {
+                    departmentField.classList.add('visible');
+                    departmentSelect.setAttribute('required', 'required');
+                } else {
+                    departmentField.classList.remove('visible');
+                    departmentSelect.removeAttribute('required');
+                    departmentSelect.value = "";
+                }
+            }
+
+            roleSelect.addEventListener('change', toggleDepartment);
+
+            // Run on load in case student is pre-selected
+            toggleDepartment();
+        });
+    </script>
 
 </body>
 
